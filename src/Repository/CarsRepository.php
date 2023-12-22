@@ -21,20 +21,34 @@ class CarsRepository extends ServiceEntityRepository
         parent::__construct($registry, Cars::class);
     }
 
-//    /**
-//     * @return Cars[] Returns an array of Cars objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Cars[] Returns an array of Cars objects
+     */
+    public function findAllCars(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT c.id as carID, b.id as brandID, c.photo, c.price, b.name
+            FROM App\Entity\Cars c
+			JOIN c.brands b'
+        );
+        return $query->getResult();
+    }
+
+    public function findAllCars($id): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT c.photo, c.price, b.id as brandID, m.id as modelID, 
+			b.name as brandName, m.name as modelName
+            FROM App\Entity\Cars c
+			JOIN c.brands b 
+			JOIN c.models m 
+			WHERE c.id = :id'
+        ) 
+		->setParameter('id', $id);
+        return $query->getResult();
+    }
 
 //    public function findOneBySomeField($value): ?Cars
 //    {

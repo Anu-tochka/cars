@@ -20,10 +20,10 @@ class Orders
     private ?int $term = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
-    private ?cars $carID = null;
+    private ?Car $carID = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
-    private ?programs $programID = null;
+    private ?Programs $programID = null;
 
     public function getId(): ?int
     {

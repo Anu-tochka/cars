@@ -2,13 +2,26 @@
 
 namespace App\Entity;
 
-use App\Repository\CarsRepository;
+use App\Repository\CarRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+//use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: CarsRepository::class)]
-class Cars
+#[ORM\Entity(repositoryClass: CarRepository::class)]
+#[ApiResource(
+operations: [
+    new GetCollection(),
+    new Post(/*processor: UserPasswordHasherProcessor::class, 
+            uriTemplate: '/registration'*/),
+    new Get()
+	])
+]
+class Car
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,10 +35,10 @@ class Cars
     private ?float $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'cars')]
-    private ?brands $brandID = null;
+    private ?Brands $brandID = null;
 
     #[ORM\ManyToOne(inversedBy: 'cars')]
-    private ?models $modelID = null;
+    private ?Models $modelID = null;
 
     #[ORM\OneToMany(mappedBy: 'carID', targetEntity: Orders::class)]
     private Collection $orders;

@@ -18,7 +18,7 @@ class Models
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'modelID', targetEntity: Cars::class)]
+    #[ORM\OneToMany(mappedBy: 'modelID', targetEntity: Car::class)]
     private Collection $cars;
 
     public function __construct()
@@ -44,14 +44,14 @@ class Models
     }
 
     /**
-     * @return Collection<int, Cars>
+     * @return Collection<int, Car>
      */
     public function getCars(): Collection
     {
         return $this->cars;
     }
 
-    public function addCar(Cars $car): static
+    public function addCar(Car $car): static
     {
         if (!$this->cars->contains($car)) {
             $this->cars->add($car);
@@ -61,7 +61,7 @@ class Models
         return $this;
     }
 
-    public function removeCar(Cars $car): static
+    public function removeCar(Car $car): static
     {
         if ($this->cars->removeElement($car)) {
             // set the owning side to null (unless already changed)
